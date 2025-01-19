@@ -11,16 +11,16 @@ logging.basicConfig(level=logging.DEBUG)
 stored_params = {}
 
 # List of params with "Volts" on the end that needs to be trimmed:
-voltsParams   = {'hitrans', 'lotrans', 'battv', 'nominv', 'linev', 'nombattv'}
-wattsParams   = {'nompower'}
+voltsParams = {'hitrans', 'lotrans', 'battv', 'nominv', 'linev', 'nombattv'}
+wattsParams = {'nompower'}
 percentParams = {'bcharge', 'mbattchg', 'loadpct'}
 secondsParams = {'cumonbatt', 'alarmdel', 'tonbatt', 'maxtime'}
 minutesParams = {'mintimel', 'timeleft'}
-datesParams   = {'end apc', 'starttime', 'date', 'xonbatt', 'xoffbatt'}
+datesParams = {'end apc', 'starttime', 'date', 'xonbatt', 'xoffbatt'}
 
 
-def on_connect(client, userdata, flags, rc):
-    logging.info("Connected with result code "+str(rc))
+def on_connect(client, userdata, flags, reasonCode, properties=None):
+    logging.info("Connected with reason code " + str(reasonCode))
 
 
 def scan_ups():
@@ -74,7 +74,7 @@ def rescan_ups():
                 client.publish("{}/{}".format(root_topic, param), new_params[param], 0, True)
         else:
             # add if missing (and publish)
-            logging.info ("Adding new param " + param)
+            logging.info("Adding new param " + param)
             client.publish("{}/{}".format(root_topic, param), new_params[param], 0, True)
 
 
@@ -85,18 +85,35 @@ SettingsFile = configparser.ConfigParser()
 SettingsFile.optionxform = str
 SettingsFile.read("./apcups-mqtt.ini")
 
-username        = SettingsFile.get("mqtt", "broker_username")
-password        = SettingsFile.get("mqtt", "broker_password")
-broker_address  = SettingsFile.get("mqtt", "broker_address")
-client_name     = SettingsFile.get("mqtt", "client_name")
-root_topic      = SettingsFile.get("mqtt", "root_topic")
+# Debugging: Log the loaded configuration values
+try:
+    username = SettingsFile.get("mqtt", "broker_username")
+    password = SettingsFile.get("mqtt", "broker_password")
+    broker_address = SettingsFile.get("mqtt", "broker_address")
+    client_name = SettingsFile.get("mqtt", "client_name")
+    root_topic = SettingsFile.get("mqtt", "root_topic")
+
+    # Log the loaded settings to verify they're correct
+    logging.info(f"Loaded MQTT Configurations:")
+    logging.info(f"  Broker Username: {username}")
+    logging.info(f"  Broker Password: {password}")
+    logging.info(f"  Broker Address: {broker_address}")
+    logging.info(f"  Client Name: {client_name}")
+    logging.info(f"  Root Topic: {root_topic}")
+
+except Exception as e:
+    logging.error(f"Error reading config: {e}")
+    raise
+
 
 # Set up MQTT client...
-client = mqtt.Client(client_name)
+client = mqtt.Client(client_id=client_name, userdata=None, protocol=mqtt.MQTTv5)
 client.username_pw_set(username, password)
 client.on_connect = on_connect
 
-client.connect(broker_address)
+# Connect to the MQTT broker with port 1883
+broker_port = 1883  # Specify the correct port here
+client.connect(broker_address, broker_port, 60)  # Use the broker port here
 
 # Load UPS data...
 stored_params = scan_ups()
