@@ -8,7 +8,7 @@ Main edits:
 - No port was defined in the original script
   - Added default mqtt port 1883 in the script
 
-If you are looking for instructions on setting-up and using `apcups-mqtt` then head over to the [wiki](https://github.com/JamieTemple/apcups-mqtt/wiki) for more help.
+If you are looking for instructions on setting-up and using `apcups-mqtt` then head over to the [wiki](https://github.com/giovi321/apcups-mqtt-v2/wiki) for more help.
 
 # Getting Started
 
