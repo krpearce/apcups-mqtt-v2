@@ -1,0 +1,17 @@
+[Unit]
+Description=APCUPS MQTT Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/root/upsmqtt/apcups-mqtt
+ExecStart=/root/upsmqtt/bin/python3 /root/upsmqtt/apcups-mqtt/apcups-mqtt-v2.py
+Restart=always
+Environment="PATH=/root/upsmqtt/bin"
+Environment="VIRTUAL_ENV=/root/upsmqtt"
+Environment="PATH=/usr/sbin:/usr/bin:/sbin:/bin"
+
+[Install]
+WantedBy=multi-user.target
