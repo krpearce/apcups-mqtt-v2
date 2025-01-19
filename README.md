@@ -61,7 +61,15 @@ systemctl start apcupsd
 Now verify that the service runs fine `systemctl status apcupsd`
 
 ### Enable apcups-mqtt-v2 service
-Copy the file 
+Copy the example systemd unit file [apcups-mqtt.service](https://github.com/giovi321/apcups-mqtt-v2/blob/master/apcups-mqtt.service) to the directory `/etc/systemd/system/`.
+Edit the unit file according to your venv and enable the service:
+```
+systemctl enable apcups-mqtt.service
+systemctl start apcups-mqtt.service
+```
+Now verify that the service runs fine `systemctl status apcups-mqtt.service`
+You can debug it using `journalctl -u apcups-mqtt.service`
+
 
 # References
 https://www.cyberciti.biz/faq/debian-ubuntu-centos-rhel-install-apcups/
