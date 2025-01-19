@@ -50,6 +50,19 @@ pip3 install -r requirements.txt
 python3 apcups-mqtt.py
 ```
 
+## Run everything as a systemd services
+
+### Enable and start apcupsd service
+We first need to enable the service apcupsd
+```
+systemctl enable apcupsd
+systemctl start apcupsd
+```
+Now verify that the service runs fine `systemctl status apcupsd`
+
+### Enable apcups-mqtt-v2 service
+Copy the file 
+
 # References
 https://www.cyberciti.biz/faq/debian-ubuntu-centos-rhel-install-apcups/
 
