@@ -76,3 +76,5 @@ https://www.cyberciti.biz/faq/debian-ubuntu-centos-rhel-install-apcups/
 
 http://www.apcupsd.org/manual/manual.html#basic-user-s-guide
 
+https://github.com/JamieTemple/apcups-mqtt
+
