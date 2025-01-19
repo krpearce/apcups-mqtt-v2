@@ -8,13 +8,11 @@ Main edits:
 - No port was defined in the original script
   - Added default mqtt port 1883 in the script
 
-If you are looking for instructions on setting-up and using `apcups-mqtt` then head over to the [wiki](https://github.com/giovi321/apcups-mqtt-v2/wiki) for more help.
-
 # Getting Started
 
 ## Platform support
 
-This script has been tested on Ubuntu Linux. It should probably run fine on any other distros.
+This script has been tested on Debian Linux using a python venv. It should probably run fine on any other distros.
 
 Although completely untested, there is a fair chance that most of it might work on Windows as well.
 
@@ -43,20 +41,17 @@ client_name     = <name this service will expose itself to the MQTT broker as>
 root_topic      = <root topic for publishing messages under>
 ```
 
-## Running
+## Running in python venv
 
 ```
+python3 -m venv upsmqtt
+source upsmqtt/bin/activate
 pip3 install -r requirements.txt
 python3 apcups-mqtt.py
 ```
-
-See the [wiki](https://github.com/JamieTemple/apcups-mqtt/wiki) for instructions on running as a service, or in a container.
-
 
 # References
 https://www.cyberciti.biz/faq/debian-ubuntu-centos-rhel-install-apcups/
 
 http://www.apcupsd.org/manual/manual.html#basic-user-s-guide
 
-# Contributing
-TODO: ... 
