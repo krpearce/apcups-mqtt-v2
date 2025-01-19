@@ -1,7 +1,12 @@
 # Introduction 
 A simple MQTT client for publishing APC UPS status changes.
 
-**This is an updated version which will actually work**
+**This is an updated version which will actually work based on  JamieTemple's excellent work**
+Main edits:
+- The original script was using an outdated API version of the paho-mqtt library. As of paho-mqtt version 2.0, a callback_api_version parameter is required for the mqtt.Client class
+  - Updated the mqtt.Client initialization to include callback_api_version=5 as required by paho-mqtt 2.0.
+- No port was defined in the original script
+  - Added default mqtt port 1883 in the script
 
 If you are looking for instructions on setting-up and using `apcups-mqtt` then head over to the [wiki](https://github.com/JamieTemple/apcups-mqtt/wiki) for more help.
 
