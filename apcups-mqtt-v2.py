@@ -21,7 +21,7 @@ datesParams = {'end apc', 'starttime', 'date', 'xonbatt', 'xoffbatt'}
 
 def on_connect(client, userdata, flags, reasonCode, properties=None):
     logging.info("Connected with reason code " + str(reasonCode))
-
+    client.publish(root_topic + "/LWT", payload="Online", qos=0, retain=True)
 
 def scan_ups():
     # Read all of the UPS settings...
@@ -111,6 +111,10 @@ client = mqtt.Client(client_id=client_name, userdata=None, protocol=mqtt.MQTTv5)
 client.username_pw_set(username, password)
 client.on_connect = on_connect
 
+# Setup LWT
+client.will_set(root_topic + "/LWT", payload="Offline", qos=0, retain=True)
+
+
 # Connect to the MQTT broker with port 1883
 broker_port = 1883  # Specify the correct port here
 client.connect(broker_address, broker_port, 60)  # Use the broker port here
@@ -130,7 +134,7 @@ try:
     while True:
         # Rescan every 10 seconds (even though apcaccess only updates its
         # status every 60 seconds from what I can tell.)
-        time.sleep(10)
+        time.sleep(30)
         rescan_ups()
 
 except KeyboardInterrupt:
