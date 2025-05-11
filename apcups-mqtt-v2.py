@@ -11,12 +11,15 @@ logging.basicConfig(level=logging.DEBUG)
 stored_params = {}
 
 # List of params with "Volts" on the end that needs to be trimmed:
-voltsParams = {'hitrans', 'lotrans', 'battv', 'nominv', 'linev', 'nombattv'}
+voltsParams = {'hitrans', 'lotrans', 'battv', 'nominv', 'linev', 'nombattv', 'outputv', 'nomoutv'}
 wattsParams = {'nompower'}
-percentParams = {'bcharge', 'mbattchg', 'loadpct'}
-secondsParams = {'cumonbatt', 'alarmdel', 'tonbatt', 'maxtime'}
+percentParams = {'bcharge', 'mbattchg', 'loadpct', 'retpct'}
+secondsParams = {'cumonbatt', 'alarmdel', 'tonbatt', 'maxtime', 'dwake', 'dshutd'}
 minutesParams = {'mintimel', 'timeleft'}
 datesParams = {'end apc', 'starttime', 'date', 'xonbatt', 'xoffbatt'}
+tempParams = {'itemp'}
+freqParams = {'linefreq'}
+
 
 
 def on_connect(client, userdata, flags, reasonCode, properties=None):
@@ -47,6 +50,10 @@ def scan_ups():
             varval = varval.replace('Seconds', '').strip()
         if varname in minutesParams:
             varval = varval.replace('Minutes', '').strip()
+        if varname in tempParams:
+            varval = varval.replace('C', '').strip()
+        if varname in freqParams:
+            varval = varval.replace('Hz', '').strip()
         if varname in datesParams:
             try:
                 varval = datetime.strptime(varval, '%Y-%m-%d %H:%M:%S %z').strftime('%Y-%m-%dT%H:%M:%S%z')
